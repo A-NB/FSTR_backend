@@ -1,3 +1,4 @@
 fstrvenv/
 .vscode/
 "Dockerfile old"
+__pycache__/

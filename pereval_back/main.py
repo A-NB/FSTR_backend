@@ -1,4 +1,7 @@
+import os
+
 from typing import Optional, List
+
 from xmlrpc.client import DateTime
 
 from fastapi import FastAPI
@@ -6,6 +9,14 @@ from fastapi import FastAPI
 from models import Data, User, Level, Coords
 
 app = FastAPI()
+
+host_server = os.environ.get('host_server', 'localhost')
+db_port = str(os.environ.get('FSTR_DB_PORT', '5432')) #u rllib.parse.quote_plus(str(os.environ.get('db_server_port', '5432')))
+db_host = os.environ.get('FSTR_DB_HOST', 'pereval')
+db_login = str(os.environ.get('FSTR_DB_LOGIN', 'postgres')) # urllib.parse.quote_plus(str(os.environ.get('FSTR_DB_LOGIN', 'postgres')))
+db_pass = str(os.environ.get('FSTR_DB_PASS', 'secret')) # urllib.parse.quote_plus(str(os.environ.get('FSTR_DB_PASS', 'secret')))
+## ssl_mode = str(os.environ.get('ssl_mode','prefer')) # urllib.parse.quote_plus(str(os.environ.get('ssl_mode','prefer')))
+DATABASE_URL = 'postgresql://{}:{}@{}:{}/{}?sslmode={}'.format(db_login, db_pass, host_server, db_port, db_host) #, ssl_mode)
 
 d = DateTime
 
@@ -43,6 +54,7 @@ db: Data = {
         ],
     "status": "new" # Внимание участникам! Поправка в БД: добавьте поле status как отдельную колонку в базу данных, тип данных varchar(20).
     }
+
 
 @app.get("/")
 async def read_root():
@@ -87,8 +99,8 @@ async def get_moderation_status():
 
 
 # ВАЖНО: путь к базе данных, а также логин и пароль нужно получать из переменных окружения. Нужно использовать следующие переменные окружения:
-#         FSTR_DB_HOST: путь к базе данных
-#         FSTR_DB_PORT: порт базы данных
+#         FSTR_DB_HOST: путь к базе данных                      
+#         FSTR_DB_PORT: порт базы данных                        5432
 #         FSTR_DB_LOGIN: логин, с которым вы подключаетесь к БД
 #         FSTR_DB_PASS: пароль, с которым вы подключаетесь к БД
 

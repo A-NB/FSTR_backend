@@ -3,6 +3,7 @@ from typing import Optional, List, Dict
 from pydantic import BaseModel
 # from uuid import UUID, uuid4
 
+
 class User(BaseModel):
     id: str #Optional[UUID] = uuid4()
     email: str  
@@ -23,6 +24,7 @@ class Level(BaseModel):
     summer: Optional[str] 
     autumn: Optional[str] 
     spring: Optional[str] 
+
 
 class Data(BaseModel):
     #data: dict
